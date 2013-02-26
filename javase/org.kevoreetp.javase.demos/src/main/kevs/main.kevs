@@ -1,33 +1,33 @@
  {
-addRepo "http://maven.kevoree.org/release"
 addRepo "http://maven.kevoree.org/archiva/repository/daum/snapshots"
-addRepo "http://repo.maven.apache.org/maven2"
+addRepo "http://maven.kevoree.org/release"
 addRepo "http://anteros.ifsic.univ-rennes1.fr:8081/archiva/repository/snapshots"
+addRepo "http://repo.maven.apache.org/maven2"
 addRepo "http://maven.kevoree.org/daum/release"
 addRepo "http://repository.jetbrains.com/all"
 addRepo "http://maven.kevoree.org/archiva/repository/snapshots/"
-addRepo "http://maven.kevoree.org/snapshots"
 addRepo "http://repo.typesafe.com/typesafe/releases/"
+addRepo "http://maven.kevoree.org/snapshots"
 addRepo "http://maven.kevoree.org/daum/snapshots"
 addRepo "http://anteros.ifsic.univ-rennes1.fr:8081/archiva/repository/release"
 merge 'mvn:org.kevoreetp.javase/org.kevoreetp.javase.demos/2.0.0-SNAPSHOT'
-merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.defaultChannels/2.0.0-SNAPSHOT'
-merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.javaseNode/2.0.0-SNAPSHOT'
 merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.jexxus/2.0.0-SNAPSHOT'
+merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.javaseNode/2.0.0-SNAPSHOT'
+merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.defaultChannels/2.0.0-SNAPSHOT'
 addNode node0:JavaSENode
-updateDictionary node0{coreLogLevel="WARN",logLevel="INFO"}
+updateDictionary node0{logLevel="INFO",coreLogLevel="WARN"}
  {
-  addComponent JTouchDB906@node0 : JTouchDB {port_db='8888',path='/tmp/db1'}
-  addComponent FakeLight143@node0 : FakeLightCouchDemo {}
+  addComponent JTouchDB906@node0 : JTouchDB {port_db='8888',path='/tmp/db4'}
+  addComponent FakeLight143@node0 : FakeLightCouchDemo {name_document='followers'}
 addChannel defSERVIC147 : defSERVICE {}
 bind JTouchDB906.service@node0 => defSERVIC147
 bind FakeLight143.service@node0 => defSERVIC147
-updateDictionary defSERVIC147
-updateDictionary JTouchDB906@node0
-updateDictionary FakeLight143@node0
+updateDictionary defSERVIC147 
+updateDictionary JTouchDB906@node0 
+updateDictionary FakeLight143@node0 
 }
 
 addGroup sync:BasicGroup
 addToGroup sync node0
-updateDictionary sync{ssl="false",port="8000",ip="0.0.0.0"}@node0
+updateDictionary sync{port="8000",ssl="false",ip="0.0.0.0"}@node0
 }

@@ -22,7 +22,6 @@ import org.lightcouch.Response;
  */
 @Library(name = "JavaSE")
 @DictionaryType({
-        @DictionaryAttribute(name = "touchdbport", defaultValue = "8888", optional = false),
         @DictionaryAttribute(name = "name_document", defaultValue = "followers", optional = false)
 })
 @Requires({
@@ -94,6 +93,7 @@ public class FakeLightCouchDemo extends AbstractComponentType implements Runnabl
             for(  Follower f :  service.getDbClient(docname).view("_all_docs").includeDocs(true).query(Follower.class))
             {
                 System.out.println(f.getMatricule());
+
             }
             try
             {
