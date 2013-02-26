@@ -10,21 +10,34 @@ addRepo "http://repo.typesafe.com/typesafe/releases/"
 addRepo "http://maven.kevoree.org/snapshots"
 addRepo "http://maven.kevoree.org/daum/snapshots"
 addRepo "http://anteros.ifsic.univ-rennes1.fr:8081/archiva/repository/release"
+merge 'mvn:org.daum.library.javase/org.daum.library.javase.jtouchDB/2.0.0-SNAPSHOT'
+merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.defaultChannels/2.0.0-SNAPSHOT'
 merge 'mvn:org.kevoreetp.javase/org.kevoreetp.javase.demos/2.0.0-SNAPSHOT'
 merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.jexxus/2.0.0-SNAPSHOT'
 merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.javaseNode/2.0.0-SNAPSHOT'
-merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.defaultChannels/2.0.0-SNAPSHOT'
 addNode node0:JavaSENode
-updateDictionary node0{logLevel="INFO",coreLogLevel="WARN"}
+updateDictionary node0{logLevel="WARN",coreLogLevel="WARN"}
  {
-  addComponent JTouchDB906@node0 : JTouchDB {port_db='8888',path='/tmp/db4'}
-  addComponent FakeLight143@node0 : FakeLightCouchDemo {name_document='followers'}
+  addComponent JTouchDB977@node0 : JTouchDB {port_db='8888',path='/tmp/db33'}
+  addComponent JTouchDB906@node0 : JTouchDB {port_db='8889',path='/tmp/db334'}
+  addComponent FakeLight950@node0 : FakeLightCouchInsert {}
+  addComponent FakeLight902@node0 : FakeLightCouchList {name_document='followers'}
+addChannel defSERVIC239 : defSERVICE {}
+addChannel syncTouch818 : syncTouchDB {dbname='followers'}
 addChannel defSERVIC147 : defSERVICE {}
 bind JTouchDB906.service@node0 => defSERVIC147
-bind FakeLight143.service@node0 => defSERVIC147
+bind FakeLight950.service@node0 => defSERVIC147
+bind JTouchDB977.service@node0 => defSERVIC239
+bind FakeLight902.service@node0 => defSERVIC239
+bind JTouchDB906.cluster@node0 => syncTouch818
+bind JTouchDB977.cluster@node0 => syncTouch818
+updateDictionary defSERVIC239 
+updateDictionary syncTouch818 
 updateDictionary defSERVIC147 
+updateDictionary JTouchDB977@node0 
 updateDictionary JTouchDB906@node0 
-updateDictionary FakeLight143@node0 
+updateDictionary FakeLight950@node0 
+updateDictionary FakeLight902@node0 
 }
 
 addGroup sync:BasicGroup
