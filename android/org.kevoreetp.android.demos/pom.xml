@@ -13,7 +13,7 @@
         <artifactId>org.kevoreetp.android.root</artifactId>
         <groupId>org.kevoreetp.android</groupId>
         <version>2.0.0-SNAPSHOT</version>
-        <relativePath>../org.daum.library.android.root</relativePath>
+        <relativePath>../org.kevoreetp.android.root/pom.xml</relativePath>
     </parent>
 
 
