@@ -29,42 +29,32 @@ import org.lightcouch.Response;
         @RequiredPort(name = "service", type = PortType.SERVICE, className = TouchDBService.class, optional = false, needCheckDependency = true)
 })
 @ComponentType
-public class FakeLightCouchDemo extends AbstractComponentType {
+public class FakeLightCouchDemo extends AbstractComponentType implements Runnable{
 
     private boolean first = true;
+    Thread t;
+    private boolean alive=false;
 
     @Start
     public void start()
     {
-        Follower pompier1 = new Follower();
-        pompier1.setMatricule("Noel Plouzeau");
-        double lat =    48.115683;
-        double lon =         -1.664286;
-        pompier1.lat=(int)(lat* 1E6);
-        pompier1.lon =  (int)(lon* 1E6);
-        pompier1.accuracy = 3;
-        pompier1.altitude= 10;
-        pompier1.safety_distance = 5;
-
-        TouchDBService service = getPortByName("service", TouchDBService.class);
-
+        alive = true;
+        t = new Thread(this);
+        t.start();
 
         String docname =getDictionary().get("name_document").toString();
-
-        Response  m =    service.getDbClient(docname).save(pompier1);
-
-
-
-        System.out.println(m.getId());
-
-
+        TouchDBService service = getPortByName("service", TouchDBService.class);
+        service.addChangeListener(docname);
     }
 
 
     @Stop
-    public void stop() {
-
-
+    public void stop()
+    {
+        alive = false;
+        String docname =getDictionary().get("name_document").toString();
+        TouchDBService service = getPortByName("service", TouchDBService.class);
+        service.removeChangeListener(docname);
     }
 
     @Update
@@ -73,4 +63,44 @@ public class FakeLightCouchDemo extends AbstractComponentType {
 
     }
 
+    @Override
+    public void run()
+    {
+        int i=0;
+        while(alive)
+        {
+
+            String docname =getDictionary().get("name_document").toString();
+            TouchDBService service = getPortByName("service", TouchDBService.class);
+
+
+            Follower pompier1 = new Follower();
+            pompier1.setMatricule("JeD "+i);
+            double lat =    48.115683;
+            double lon =         -1.664286;
+            pompier1.lat=(int)(lat* 1E6);
+            pompier1.lon =  (int)(lon* 1E6);
+            pompier1.accuracy = 3;
+            pompier1.altitude= 10;
+            pompier1.safety_distance = 5;
+
+            Response  m =    service.getDbClient(docname).save(pompier1);
+
+            System.out.println("Saving "+pompier1.getMatricule()+" "+m.getId());
+            i++;
+
+            System.out.println("List ->");
+            // get list
+            for(  Follower f :  service.getDbClient(docname).view("_all_docs").includeDocs(true).query(Follower.class))
+            {
+                System.out.println(f.getMatricule());
+            }
+            try
+            {
+                Thread.sleep(8000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

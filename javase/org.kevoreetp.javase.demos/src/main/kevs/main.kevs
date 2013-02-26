@@ -22,9 +22,9 @@ updateDictionary node0{coreLogLevel="WARN",logLevel="INFO"}
 addChannel defSERVIC147 : defSERVICE {}
 bind JTouchDB906.service@node0 => defSERVIC147
 bind FakeLight143.service@node0 => defSERVIC147
-updateDictionary defSERVIC147 
-updateDictionary JTouchDB906@node0 
-updateDictionary FakeLight143@node0 
+updateDictionary defSERVIC147
+updateDictionary JTouchDB906@node0
+updateDictionary FakeLight143@node0
 }
 
 addGroup sync:BasicGroup
